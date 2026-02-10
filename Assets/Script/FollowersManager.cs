@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem; // Assure-toi d'avoir le package Input System installé et configuré dans ton projet.
 
 /// <summary>
 /// Gestionnaire central du nombre de followers.
