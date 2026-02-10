@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Pushup : MonoBehaviour
+public class Squat : MonoBehaviour
 {
     [Header("Detection Settings")]
     [Tooltip("Tag of the floor object to detect (e.g., 'Floor')")]
