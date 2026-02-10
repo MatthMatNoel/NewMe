@@ -3,42 +3,38 @@ using UnityEngine;
 public class Dumbbell : MonoBehaviour
 {
     [Header("Movement Detection")]
-    [SerializeField] private float velocityThreshold = 2.0f; // Adjust based on testing
-    [SerializeField] private float cooldownTime = 0.5f; // Prevent multiple triggers
+    [SerializeField] private float speedThreshold = 3.0f; // Meters per second
+    [SerializeField] private float cooldownTime = 0.5f;
 
-    private Rigidbody rb;
+    private Vector3 previousPosition;
     private float lastTriggerTime;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
-        if (rb == null)
-        {
-            Debug.LogError("Dumbbell needs a Rigidbody component!");
-        }
+        previousPosition = transform.position;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (rb == null) return;
+        // Calculate speed based on position change
+        float distanceMoved = Vector3.Distance(transform.position, previousPosition);
+        float speed = distanceMoved / Time.deltaTime;
 
-        // Get the velocity magnitude (speed regardless of direction)
-        float currentSpeed = rb.linearVelocity.magnitude;
-
-        // Check if moving fast enough and cooldown has passed
-        if (currentSpeed >= velocityThreshold && Time.time >= lastTriggerTime + cooldownTime)
+        // Check if moving fast enough
+        if (speed >= speedThreshold && Time.time >= lastTriggerTime + cooldownTime)
         {
-            OnQuickMovement(currentSpeed);
+            OnQuickMovement(speed);
             lastTriggerTime = Time.time;
         }
+
+        // Update previous position for next frame
+        previousPosition = transform.position;
     }
 
     private void OnQuickMovement(float speed)
     {
         Debug.Log($"Quick movement detected! Speed: {speed:F2} m/s");
 
-        // Add your custom logic here
-        // For example: play sound, add score, trigger animation, etc.
+        // Your custom logic here
     }
 }
