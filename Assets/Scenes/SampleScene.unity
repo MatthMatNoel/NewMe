@@ -4751,6 +4751,7 @@ Transform:
   - {fileID: 795537840}
   - {fileID: 724372990}
   - {fileID: 1115240743}
+  - {fileID: 2036720523}
   - {fileID: 375845075}
   m_Father: {fileID: 1240997200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9990,7 +9991,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745690254}
   m_LocalRotation: {x: -0.5492868, y: 0.5544323, z: -0.44373482, w: -0.44044116}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0059}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0065}
   m_LocalScale: {x: 0.00014784787, y: 0.00014784787, z: 0.00014784787}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9998,7 +9999,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 77.395, y: 180.24, z: -89.274}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -355.6808, y: -448.1211}
+  m_AnchoredPosition: {x: -355.68323, y: -448.1211}
   m_SizeDelta: {x: 156.58, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1745690256
@@ -10048,8 +10049,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92.51
-  m_fontSizeBase: 92.51
+  m_fontSize: 43.71
+  m_fontSizeBase: 43.71
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -11913,12 +11914,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036720519}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0044, y: 0.0427, z: 0.0047}
-  m_LocalScale: {x: -0.016751515, y: -0.016751515, z: -0.016751515}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0173, y: 0.04, z: 0.016}
+  m_LocalScale: {x: -0.01102635, y: -0.01102635, z: -0.01102635}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 778903198}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2036868959
 GameObject:
@@ -12657,4 +12658,3 @@ SceneRoots:
   - {fileID: 1116409220}
   - {fileID: 1393396174}
   - {fileID: 1415356283}
-  - {fileID: 2036720523}
