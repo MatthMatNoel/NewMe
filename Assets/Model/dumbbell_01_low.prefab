@@ -61,6 +61,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 8710074722930662989}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 767524408728427510}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1966827910684128942}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3796461889715541798}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4918029230810457828}
   m_SourcePrefab: {fileID: 100100000, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
@@ -69,6 +81,95 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
   m_PrefabInstance: {fileID: 6058181525080742942}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8710074722930662989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400620222751482191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b023183069df224080314a560e6e1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
+  blockId: 
+  instanceId: 5a5546b6-cbb0-46d4-b89f-473ded12e18f
+  version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
+--- !u!65 &767524408728427510
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400620222751482191}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.1856027, y: 0.8970752, z: 0.9715905}
+  m_Center: {x: 0.0021348596, y: 0.015302584, z: 0.0021441728}
+--- !u!54 &1966827910684128942
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400620222751482191}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &3796461889715541798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400620222751482191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f86b14a27b52f4f9298c33015b5c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.Grabbable
+  _transferOnSecondSelection: 0
+  _addNewPointsToFront: 0
+  _forwardElement: {fileID: 0}
+  _oneGrabTransformer: {fileID: 0}
+  _twoGrabTransformer: {fileID: 0}
+  _targetTransform: {fileID: 0}
+  _maxGrabPoints: -1
+  _rigidbody: {fileID: 1966827910684128942}
+  _kinematicWhileSelected: 1
+  _throwWhenUnselected: 1
+  _forceKinematicDisabled: 0
 --- !u!114 &4918029230810457828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,4 +184,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dumbbell
   speedThreshold: 3
   cooldownTime: 0.5
-  followerNumber: 10
+  followerNumber: 5
+  grabbable: {fileID: 0}
