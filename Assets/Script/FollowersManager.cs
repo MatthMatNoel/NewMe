@@ -48,6 +48,7 @@ public class FollowersManager : MonoBehaviour
 
         FollowersCount += amount;
         OnFollowersChanged?.Invoke(FollowersCount);
+        Debug.Log(FollowersCount);
     }
 
     /// <summary>

@@ -1983,7 +1983,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1745690255}
-  m_Father: {fileID: 778903198}
+  m_Father: {fileID: 1240997200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4770,7 +4770,6 @@ Transform:
   - {fileID: 724372990}
   - {fileID: 1115240743}
   - {fileID: 2036720523}
-  - {fileID: 375845075}
   m_Father: {fileID: 1240997200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &778903199
@@ -6549,6 +6548,7 @@ GameObject:
   - component: {fileID: 1116409216}
   - component: {fileID: 1116409215}
   - component: {fileID: 1116409214}
+  - component: {fileID: 1116409221}
   m_Layer: 0
   m_Name: '[BuildingBlock] Cube'
   m_TagString: Untagged
@@ -6718,6 +6718,20 @@ Transform:
   - {fileID: 766129823}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1116409221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116409213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89bd2506f683347a9bd6367cb7833584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dumbbell
+  speedThreshold: 3
+  cooldownTime: 0.2
 --- !u!1 &1120249058
 GameObject:
   m_ObjectHideFlags: 0
@@ -7617,6 +7631,7 @@ Transform:
   m_Children:
   - {fileID: 778903198}
   - {fileID: 1599437382}
+  - {fileID: 375845075}
   m_Father: {fileID: 1121349304}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1263988766
@@ -8299,6 +8314,51 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2124343057}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1399441425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1399441427}
+  - component: {fileID: 1399441426}
+  m_Layer: 0
+  m_Name: FollowersManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1399441426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399441425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d6921866e2604732a92c57aac985f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FollowersManager
+  initialFollowers: 0
+--- !u!4 &1399441427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399441425}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.05735, y: 0.05995, z: 0.14549}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1404711316
 GameObject:
@@ -11082,6 +11142,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1017608141}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1903110410 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6257970072797229460, guid: ceffb2717160f464aa7cd78ec2239570, type: 3}
+  m_PrefabInstance: {fileID: 5709140706305195600}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1903110413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903110410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0ed908e3dad43d6a3e34c85b562aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FollowersWatchDisplay
+  followersText: {fileID: 1745690256}
+  prefix: 'Followers : '
 --- !u!1 &1904242798
 GameObject:
   m_ObjectHideFlags: 0
@@ -11258,7 +11337,7 @@ MonoBehaviour:
   Colliders: 1
   CutHoles: 0
   castShadows: 1
-  hideMesh: 0
+  hideMesh: 1
   Layer: 0
   textureCoordinateModes:
   - WallU: 5
@@ -12608,7 +12687,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6257970072797229460, guid: ceffb2717160f464aa7cd78ec2239570, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1903110413}
   m_SourcePrefab: {fileID: 100100000, guid: ceffb2717160f464aa7cd78ec2239570, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -12624,3 +12706,4 @@ SceneRoots:
   - {fileID: 1116409220}
   - {fileID: 1415356283}
   - {fileID: 1626893949}
+  - {fileID: 1399441427}

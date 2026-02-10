@@ -102,6 +102,7 @@ public class Pushup : MonoBehaviour
         if (FollowersManager.Instance != null)
         {
             FollowersManager.Instance.AddFollowers(1);
+            Debug.Log("+1 follower !!!!!");
         }
         else
         {
