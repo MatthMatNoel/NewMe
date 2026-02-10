@@ -3279,6 +3279,7 @@ GameObject:
   - component: {fileID: 563347690}
   - component: {fileID: 563347692}
   - component: {fileID: 563347693}
+  - component: {fileID: 563347694}
   m_Layer: 0
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -3420,6 +3421,23 @@ MonoBehaviour:
   raycastDistance: 10
   downThreshold: 0.1
   upThreshold: 0.15
+  showDebugRay: 1
+--- !u!114 &563347694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563347688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfc1dc7258dfd48e480c536d3cb17aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Squat
+  floorTag: Floor
+  raycastDistance: 2
+  downThreshold: 0.3
+  upThreshold: 0.6
   showDebugRay: 1
 --- !u!1 &577454100
 GameObject:
