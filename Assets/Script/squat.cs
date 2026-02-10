@@ -97,7 +97,15 @@ public class Squat : MonoBehaviour
     void OnSquatUp()
     {
         Debug.Log("debout");
-        // Add any additional logic here (e.g., count as completed squat, etc.)
+        // Quand on remonte après s'être accroupi, on considère que le squat est validé.
+        if (FollowersManager.Instance != null)
+        {
+            FollowersManager.Instance.AddFollowers(50);
+        }
+        else
+        {
+            Debug.LogWarning("FollowersManager.Instance est null : aucun gestionnaire de followers trouvé dans la scène.");
+        }
     }
 
 }
