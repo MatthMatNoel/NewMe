@@ -9408,6 +9408,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8532252001050439021, guid: d171b432c7202e343827b670667d3298, type: 3}
+      propertyPath: m_Size.y
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8690027270562748058, guid: d171b432c7202e343827b670667d3298, type: 3}
       propertyPath: m_Name
       value: Carpet
@@ -11214,7 +11218,7 @@ GameObject:
   - component: {fileID: 1915710587}
   - component: {fileID: 1915710586}
   - component: {fileID: 1915710585}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: '[BuildingBlock] EffectMesh - Global Mesh'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
