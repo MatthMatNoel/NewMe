@@ -59,5 +59,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4918029230810457828}
   m_SourcePrefab: {fileID: 100100000, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
+--- !u!1 &6400620222751482191 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8cc1464196e7a6f4ebe3ca1bd2d64038, type: 3}
+  m_PrefabInstance: {fileID: 6058181525080742942}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4918029230810457828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400620222751482191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89bd2506f683347a9bd6367cb7833584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dumbbell
+  speedThreshold: 3
+  cooldownTime: 0.5
+  followerNumber: 10

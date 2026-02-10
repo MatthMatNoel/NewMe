@@ -5,6 +5,9 @@ public class Dumbbell : MonoBehaviour
     [Header("Movement Detection")]
     [SerializeField] private float speedThreshold = 3.0f; // Meters per second
     [SerializeField] private float cooldownTime = 0.5f;
+    [Min(0)]
+    [SerializeField] private int followerNumber = 10;
+
 
     private Vector3 previousPosition;
     private float lastTriggerTime;
@@ -33,8 +36,14 @@ public class Dumbbell : MonoBehaviour
 
     private void OnQuickMovement(float speed)
     {
-        Debug.Log($"Quick movement detected! Speed: {speed:F2} m/s");
-
-        // Your custom logic here
+        // Quand on remonte après être passé en bas, on considère que la pompe est validée.
+        if (FollowersManager.Instance != null)
+        {
+            FollowersManager.Instance.AddFollowers(followerNumber);
+        }
+        else
+        {
+            Debug.LogWarning("FollowersManager.Instance est null : aucun gestionnaire de followers trouvé dans la scène.");
+        }
     }
 }

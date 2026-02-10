@@ -2300,6 +2300,8 @@ GameObject:
   - component: {fileID: 419639723}
   - component: {fileID: 419639722}
   - component: {fileID: 419639721}
+  - component: {fileID: 419639729}
+  - component: {fileID: 419639728}
   m_Layer: 0
   m_Name: '[BuildingBlock] Cube'
   m_TagString: Untagged
@@ -2325,7 +2327,7 @@ MonoBehaviour:
   _oneGrabTransformer: {fileID: 0}
   _twoGrabTransformer: {fileID: 0}
   _targetTransform: {fileID: 419639727}
-  _maxGrabPoints: -1
+  _maxGrabPoints: 2
   _rigidbody: {fileID: 419639722}
   _kinematicWhileSelected: 1
   _throwWhenUnselected: 1
@@ -2470,6 +2472,34 @@ Transform:
   - {fileID: 1619521579}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &419639728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419639720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89bd2506f683347a9bd6367cb7833584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dumbbell
+  speedThreshold: 3
+  cooldownTime: 0.5
+  followerNumber: 10
+--- !u!114 &419639729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419639720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fceff29be6bb44a6ea0608cecce00574, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Bench
+  _twoGrabTransformer: {fileID: 0}
 --- !u!1 &422179605
 GameObject:
   m_ObjectHideFlags: 0
