@@ -2,39 +2,67 @@ using UnityEngine;
 using Oculus.Interaction;
 
 /// <summary>
-/// Configures a bench to be grabbable only with two hands.
-/// Add this alongside the Grabbable component.
+/// Makes an object grabbable only with two hands.
+/// Extends the Meta Grabbable functionality to enforce two-hand interaction.
 /// </summary>
-[RequireComponent(typeof(Grabbable))]
-public class Bench : MonoBehaviour
+public class TwoHandsOnlyGrabbable : Grabbable
 {
-    private Grabbable _grabbable;
-
-    [Header("Two-Hand Grab Settings")]
+    [Header("Two Hands Only Settings")]
     [SerializeField]
-    [Tooltip("The Two Grab Transformer to use (e.g., TwoGrabRotateTransformer, TwoGrabFreeTransformer)")]
-    private Component _twoGrabTransformer;
+    [Tooltip("Minimum number of hands required before the object can be grabbed")]
+    private int _minHandsRequired = 2;
 
-    void Awake()
+    [SerializeField]
+    [Tooltip("Optional visual feedback when trying to grab with only one hand")]
+    private GameObject _needTwoHandsFeedback;
+
+    protected override void Start()
     {
-        _grabbable = GetComponent<Grabbable>();
-        ConfigureTwoHandGrab();
+        base.Start();
+
+        // Force max grab points to exactly 2
+        MaxGrabPoints = 2;
+
+        // Hide feedback initially
+        if (_needTwoHandsFeedback != null)
+        {
+            _needTwoHandsFeedback.SetActive(false);
+        }
     }
 
-    private void ConfigureTwoHandGrab()
+    public override void ProcessPointerEvent(PointerEvent evt)
     {
-        if (_grabbable == null) return;
-
-        // Set to only allow 2 grab points (no more, no less for transformation)
-        _grabbable.MaxGrabPoints = 2;
-
-        // Inject the two-grab transformer if provided
-        if (_twoGrabTransformer != null && _twoGrabTransformer is ITransformer)
+        // Check if we have enough hands before allowing interaction
+        if (evt.Type == PointerEventType.Select)
         {
-            _grabbable.InjectOptionalTwoGrabTransformer(_twoGrabTransformer as ITransformer);
+            if (SelectingPointsCount < _minHandsRequired - 1)
+            {
+                // Not enough hands yet - show feedback
+                ShowNeedTwoHandsFeedback(true);
+
+                // Allow the first hand to start selecting, but no transform yet
+                base.ProcessPointerEvent(evt);
+                return;
+            }
+            else
+            {
+                // We have enough hands now
+                ShowNeedTwoHandsFeedback(false);
+            }
+        }
+        else if (evt.Type == PointerEventType.Unselect)
+        {
+            ShowNeedTwoHandsFeedback(false);
         }
 
-        // Don't inject a one-grab transformer - this prevents single-hand grabbing
-        // from actually moving the object
+        base.ProcessPointerEvent(evt);
+    }
+
+    private void ShowNeedTwoHandsFeedback(bool show)
+    {
+        if (_needTwoHandsFeedback != null)
+        {
+            _needTwoHandsFeedback.SetActive(show);
+        }
     }
 }

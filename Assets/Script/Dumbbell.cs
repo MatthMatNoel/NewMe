@@ -1,4 +1,5 @@
 using UnityEngine;
+using Oculus.Interaction;
 
 public class Dumbbell : MonoBehaviour
 {
@@ -8,17 +9,30 @@ public class Dumbbell : MonoBehaviour
     [Min(0)]
     [SerializeField] private int followerNumber = 10;
 
+    [Header("Grab Detection")]
+    [SerializeField] private Grabbable grabbable;
+
 
     private Vector3 previousPosition;
     private float lastTriggerTime;
 
     void Start()
     {
+        if (grabbable == null)
+        {
+            grabbable = GetComponent<Grabbable>();
+        }
         previousPosition = transform.position;
     }
 
     void Update()
     {
+        if (!IsGrabbed())
+        {
+            previousPosition = transform.position;
+            return;
+        }
+
         // Calculate speed based on position change
         float distanceMoved = Vector3.Distance(transform.position, previousPosition);
         float speed = distanceMoved / Time.deltaTime;
@@ -32,6 +46,11 @@ public class Dumbbell : MonoBehaviour
 
         // Update previous position for next frame
         previousPosition = transform.position;
+    }
+
+    private bool IsGrabbed()
+    {
+        return grabbable != null && grabbable.SelectingPointsCount > 0;
     }
 
     private void OnQuickMovement(float speed)
