@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -26,7 +27,7 @@ public class FollowersManager : MonoBehaviour
     private void Update()
     {
         // DEBUG TEMPORAIRE : appuyer sur ESPACE pour ajouter 1 follower
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown("space"))
         {
             AddFollowers(1);
             Debug.Log($"[FollowersManager][DEBUG] Espace pressé -> +1 follower, total = {FollowersCount}");
