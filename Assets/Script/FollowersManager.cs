@@ -27,7 +27,7 @@ public class FollowersManager : MonoBehaviour
     private void Update()
     {
         // DEBUG TEMPORAIRE : appuyer sur ESPACE pour ajouter 1 follower
-        if (Input.GetKeyDown("space"))
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             AddFollowers(1);
             Debug.Log($"[FollowersManager][DEBUG] Espace pressé -> +1 follower, total = {FollowersCount}");
