@@ -23,6 +23,16 @@ public class FollowersManager : MonoBehaviour
     /// </summary>
     public event Action<int> OnFollowersChanged;
 
+    private void Update()
+    {
+        // DEBUG TEMPORAIRE : appuyer sur ESPACE pour ajouter 1 follower
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            AddFollowers(1);
+            Debug.Log($"[FollowersManager][DEBUG] Espace pressé -> +1 follower, total = {FollowersCount}");
+        }
+    }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -48,7 +58,7 @@ public class FollowersManager : MonoBehaviour
 
         FollowersCount += amount;
         OnFollowersChanged?.Invoke(FollowersCount);
-        Debug.Log(FollowersCount);
+        Debug.Log($"[FollowersManager] Nouveau total de followers : {FollowersCount}");
     }
 
     /// <summary>

@@ -51,6 +51,8 @@ public class FollowersUnlockController : MonoBehaviour
     /// </summary>
     private void HandleFollowersChanged(int newCount)
     {
+        Debug.Log($"[FollowersUnlockController] HandleFollowersChanged appelé avec {newCount} followers (currentStepIndex = {currentStepIndex})");
+
         if (unlocks == null || unlocks.Length == 0)
             return;
 
@@ -80,6 +82,8 @@ public class FollowersUnlockController : MonoBehaviour
             // Condition d'entrée dans l'étape : on a atteint (ou dépassé) le palier.
             // Si tu veux vraiment uniquement à la valeur exacte, tu peux remplacer
             // ">=" par "==", mais attention : si tu sautes ce nombre, l'étape ne sera jamais activée.
+            Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} : palier = {item.requiredFollowers}, followers actuels = {newCount}");
+
             if (newCount >= item.requiredFollowers)
             {
                 item.objectToActivate.SetActive(true);
