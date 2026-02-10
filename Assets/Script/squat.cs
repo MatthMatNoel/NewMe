@@ -10,10 +10,10 @@ public class Squat : MonoBehaviour
     public float raycastDistance = 2f;
 
     [Tooltip("Distance threshold for 'down' position (in meters)")]
-    public float downThreshold = 0.3f;
+    public float downThreshold = 1.2f;
 
     [Tooltip("Distance threshold for 'up' position (in meters)")]
-    public float upThreshold = 0.6f;
+    public float upThreshold = 1.4f;
 
     [Header("Debug Settings")]
     [Tooltip("Show debug ray in Scene view")]
@@ -32,10 +32,10 @@ public class Squat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DetectPushUpPosition();
+        DetectSquatPosition();
     }
 
-    void DetectPushUpPosition()
+    void DetectSquatPosition()
     {
         RaycastHit hit;
         Vector3 rayOrigin = transform.position;
@@ -59,13 +59,13 @@ public class Squat : MonoBehaviour
                 if (!isDown && currentDistance <= downThreshold)
                 {
                     isDown = true;
-                    OnPushUpDown();
+                    OnSquatDown();
                 }
                 // Check for up position
                 else if (isDown && currentDistance >= upThreshold)
                 {
                     isDown = false;
-                    OnPushUpUp();
+                    OnSquatUp();
                 }
             }
             else
@@ -88,16 +88,16 @@ public class Squat : MonoBehaviour
         }
     }
 
-    void OnPushUpDown()
+    void OnSquatDown()
     {
         Debug.Log("assieds");
         // Add any additional logic here (e.g., play sound, increment counter, etc.)
     }
 
-    void OnPushUpUp()
+    void OnSquatUp()
     {
         Debug.Log("debout");
-        // Add any additional logic here (e.g., count as completed push-up, etc.)
+        // Add any additional logic here (e.g., count as completed squat, etc.)
     }
 
 }
