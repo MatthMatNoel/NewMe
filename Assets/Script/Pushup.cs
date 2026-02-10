@@ -26,7 +26,7 @@ public class Pushup : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        Debug.Log("STARTING");
     }
 
     // Update is called once per frame
@@ -100,13 +100,4 @@ public class Pushup : MonoBehaviour
         // Add any additional logic here (e.g., count as completed push-up, etc.)
     }
 
-    // Optional: Display current distance in the inspector
-    void OnGUI()
-    {
-        if (showDebugRay)
-        {
-            GUI.Label(new Rect(10, 10, 300, 20), $"Distance to floor: {currentDistance:F2}m");
-            GUI.Label(new Rect(10, 30, 300, 20), $"State: {(isDown ? "DOWN" : "UP")}");
-        }
-    }
 }
