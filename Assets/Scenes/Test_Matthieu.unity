@@ -600,7 +600,7 @@ GameObject:
   - component: {fileID: 168713689}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3728,7 +3728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pushup
   floorTag: Floor
-  raycastDistance: 2
+  raycastDistance: 100
   downThreshold: 0.3
   upThreshold: 0.6
   showDebugRay: 1
