@@ -91,13 +91,22 @@ public class Pushup : MonoBehaviour
     void OnPushUpDown()
     {
         Debug.Log("down");
-        // Add any additional logic here (e.g., play sound, increment counter, etc.)
+        // Ici tu peux ajouter un son ou une animation pour la descente si tu veux.
     }
 
     void OnPushUpUp()
     {
         Debug.Log("up");
-        // Add any additional logic here (e.g., count as completed push-up, etc.)
+
+        // Quand on remonte après être passé en bas, on considère que la pompe est validée.
+        if (FollowersManager.Instance != null)
+        {
+            FollowersManager.Instance.AddFollowers(1);
+        }
+        else
+        {
+            Debug.LogWarning("FollowersManager.Instance est null : aucun gestionnaire de followers trouvé dans la scène.");
+        }
     }
 
 }
