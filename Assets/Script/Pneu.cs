@@ -1,84 +1,59 @@
 using UnityEngine;
 
-public class TireFlip : MonoBehaviour
+public class TirePush : MonoBehaviour
 {
-    [Header("Tire Flip Detection")]
-    [Tooltip("Hauteur minimale pour considérer que le pneu est soulevé (en mètres)")]
-    public float liftHeight = 0.5f;
-
-    [Tooltip("Angle minimum de rotation pour considérer que le pneu est renversé (en degrés)")]
-    public float flipAngle = 120f;
+    [Header("Tire Push Detection")]
+    [Tooltip("Distance minimale à parcourir pour valider (en mètres)")]
+    public float requiredDistance = 3f;
 
     [Header("Debug Settings")]
     public bool showDebug = true;
 
     // State tracking
-    private Vector3 initialPosition;
-    private Quaternion initialRotation;
-    private bool isLifted = false;
-    private bool isFlipped = false;
+    private Vector3 startPosition;
+    private bool isCompleted = false;
 
     void Start()
     {
-        // Mémoriser la position et rotation initiales
-        initialPosition = transform.position;
-        initialRotation = transform.rotation;
+        // Mémoriser la position de départ
+        startPosition = transform.position;
         
-        Debug.Log("Tire Flip - Ready!");
+        Debug.Log("Tire Push - Ready!");
     }
 
     void Update()
     {
-        DetectTireFlip();
+        if (!isCompleted)
+        {
+            DetectTirePush();
+        }
     }
 
-    void DetectTireFlip()
+    void DetectTirePush()
     {
-        // Calculer la hauteur actuelle par rapport à la position initiale
-        float currentHeight = transform.position.y - initialPosition.y;
-        
-        // Calculer l'angle de rotation par rapport à la rotation initiale
-        float rotationAngle = Quaternion.Angle(initialRotation, transform.rotation);
+        // Calculer la distance parcourue depuis le départ
+        float distanceMoved = Vector3.Distance(startPosition, transform.position);
 
-        // Vérifier si le pneu est soulevé
-        if (!isLifted && currentHeight >= liftHeight)
+        // Vérifier si le pneu a été poussé assez loin
+        if (distanceMoved >= requiredDistance)
         {
-            isLifted = true;
-            OnTireLifted();
-        }
-
-        // Vérifier si le pneu est renversé (soulevé ET rotation suffisante)
-        if (isLifted && !isFlipped && rotationAngle >= flipAngle)
-        {
-            isFlipped = true;
-            OnTireFlipped();
-        }
-
-        // Réinitialiser si le pneu est reposé au sol et dans sa position initiale
-        if (isFlipped && currentHeight < 0.1f && rotationAngle < 30f)
-        {
-            ResetTire();
+            isCompleted = true;
+            OnTirePushed();
         }
 
         // Debug info
         if (showDebug)
         {
-            Debug.DrawLine(initialPosition, transform.position, Color.cyan);
-            Debug.Log($"Hauteur: {currentHeight:F2}m | Rotation: {rotationAngle:F1}° | Soulevé: {isLifted} | Renversé: {isFlipped}");
+            Debug.DrawLine(startPosition, transform.position, Color.green);
+            Debug.Log($"Distance parcourue: {distanceMoved:F2}m / {requiredDistance}m");
         }
     }
 
-    void OnTireLifted()
+    void OnTirePushed()
     {
-        Debug.Log("PNEU SOULEVÉ !");
-        // Tu peux ajouter un son ou effet ici
-    }
+        Debug.Log("PNEU POUSSÉ - VALIDÉ !");
 
-    void OnTireFlipped()
-    {
-        Debug.Log("PNEU RENVERSÉ - VALIDÉ !");
-
-        // Ajouter un follower quand le pneu est renversé
+        // Ajouter un follower quand le pneu est poussé assez loin
         if (FollowersManager.Instance != null)
         {
             FollowersManager.Instance.AddFollowers(1);
@@ -90,14 +65,12 @@ public class TireFlip : MonoBehaviour
         }
     }
 
-    void ResetTire()
+    // Fonction pour réinitialiser manuellement si besoin
+    public void ResetTire()
     {
-        // Réinitialiser les états pour permettre un nouveau flip
-        isLifted = false;
-        isFlipped = false;
-        initialPosition = transform.position;
-        initialRotation = transform.rotation;
-        Debug.Log("Pneu réinitialisé - Prêt pour un nouveau renversement!");
+        startPosition = transform.position;
+        isCompleted = false;
+        Debug.Log("Pneu réinitialisé - Prêt pour un nouveau push!");
     }
 
 }
