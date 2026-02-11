@@ -865,6 +865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90734815533054d21baa4ed48235a4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PosterSpawner
+  posterItems: []
   posterFolderPath: affiche2d
   wallTag: Wall
   postersPerWall: 3
@@ -8757,10 +8758,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FollowersManager
   initialFollowers: 0
   followersAudioSource: {fileID: 783953273}
-  followersChangeClip: {fileID: 8300000, guid: cdbf5e15a9aec5a46a74638b5b50f289, type: 3}
-  hundredMilestoneClip: {fileID: 0}
-  fiveHundredMilestoneClip: {fileID: 0}
-  thousandMilestoneClip: {fileID: 0}
+  followersChangeClip: {fileID: 8300000, guid: 7c415a49bb804c54194cabc622d8e0c9, type: 3}
+  hundredMilestoneClip: {fileID: 8300000, guid: 76cb4a50320dab2468cf129d897ae324, type: 3}
+  fiveHundredMilestoneClip: {fileID: 8300000, guid: d585562b644e7e844ad8f90495f5e9ad, type: 3}
+  thousandMilestoneClip: {fileID: 8300000, guid: 81b180517e58fd343a8ec6f6285ce758, type: 3}
+  motivationalClips:
+  - {fileID: 8300000, guid: f07216c0f56abdc43a70fc291569f4fe, type: 3}
+  - {fileID: 8300000, guid: 58e4ae331291502439e4691eb94f3f03, type: 3}
+  - {fileID: 8300000, guid: c7e433eedcf8da447823ffb0888be6ba, type: 3}
+  - {fileID: 8300000, guid: 6b30dfa4d5b50524fa40185c3dda91ae, type: 3}
+  - {fileID: 8300000, guid: 85d9dfc652335e948a91d65c9bf243d3, type: 3}
+  motivationChancePerGain: 0.353
+  motivationCooldown: 3
 --- !u!4 &1399441427
 Transform:
   m_ObjectHideFlags: 0
@@ -8791,25 +8800,33 @@ MonoBehaviour:
   unlocks:
   - requiredFollowers: 3
     objectToActivate: {fileID: 6793942587718973415, guid: dac9b25d25c925a4cbfd89e79473e3fa, type: 3}
+    unlockSound: {fileID: 8300000, guid: f337c65e809e51a409c58929de12267d, type: 3}
     isUnlocked: 0
   - requiredFollowers: 20
     objectToActivate: {fileID: 6793942587718973415, guid: dac9b25d25c925a4cbfd89e79473e3fa, type: 3}
+    unlockSound: {fileID: 0}
     isUnlocked: 0
   - requiredFollowers: 50
     objectToActivate: {fileID: 6098072917199281092, guid: bfebf2695daa5514687ae6427d1c0ccc, type: 3}
+    unlockSound: {fileID: 8300000, guid: d48b442fe57353343a15fc9fd3575c55, type: 3}
     isUnlocked: 0
   - requiredFollowers: 100
     objectToActivate: {fileID: 6098072917199281092, guid: bfebf2695daa5514687ae6427d1c0ccc, type: 3}
+    unlockSound: {fileID: 8300000, guid: 371f1ba8d7d5cc44a98084d16f406251, type: 3}
     isUnlocked: 0
   - requiredFollowers: 200
     objectToActivate: {fileID: 4543381658830073498, guid: 356590c411489456096f38aa1293c832, type: 3}
+    unlockSound: {fileID: 8300000, guid: 0dadf428e7d9b6d41914772bb1970acb, type: 3}
     isUnlocked: 0
   - requiredFollowers: 500
     objectToActivate: {fileID: 1424588628527811088, guid: 80915878fc6b740a1aaa5952754eb1f1, type: 3}
+    unlockSound: {fileID: 8300000, guid: 0dadf428e7d9b6d41914772bb1970acb, type: 3}
     isUnlocked: 0
   - requiredFollowers: 1000
     objectToActivate: {fileID: 734123556168500386, guid: e0bc6afcd661c4818801eb0c888710f0, type: 3}
+    unlockSound: {fileID: 8300000, guid: 5e9edfcd706df084a9088220e75dce3a, type: 3}
     isUnlocked: 0
+  unlockAudioSource: {fileID: 0}
 --- !u!1 &1404711316
 GameObject:
   m_ObjectHideFlags: 0
