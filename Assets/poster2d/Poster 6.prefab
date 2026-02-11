@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4074275913393408474}
   - component: {fileID: 4652896827090436739}
   m_Layer: 0
-  m_Name: Poster
+  m_Name: Poster 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1e99de177a89e4c63bc733259c4901a5, type: 2}
+  - {fileID: 2100000, guid: 717949ff552f3ec4e95769d55d2ad24f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
