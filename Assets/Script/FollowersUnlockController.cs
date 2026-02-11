@@ -30,9 +30,15 @@ public class FollowersUnlockController : MonoBehaviour
     [Tooltip("Source audio utilisée pour jouer les sons de déblocage d'étapes")]
     [SerializeField] private AudioSource unlockAudioSource;
 
+    [Tooltip("Son joué au démarrage lorsque le nombre de followers est 0 (son de début)")]
+    public AudioClip startSound;
+
     // Index de l'étape courante dans la "state machine"
     // 0 = première étape, 1 = deuxième, etc.
     private int currentStepIndex = 0;
+
+    // Mémoire du nombre de followers précédent pour détecter les montées de palier
+    private int lastFollowersCount = -1;
 
     private void OnEnable()
     {
@@ -48,6 +54,9 @@ public class FollowersUnlockController : MonoBehaviour
             // Initialisation avec la valeur actuelle au cas où il y ait déjà des followers
             HandleFollowersChanged(FollowersManager.Instance.FollowersCount);
         }
+
+        // Mémoriser la valeur pour la prochaine détection de montée
+        lastFollowersCount = newCount;
     }
 
     private void OnDisable()
@@ -68,6 +77,12 @@ public class FollowersUnlockController : MonoBehaviour
         if (unlocks == null || unlocks.Length == 0)
             return;
 
+        // Si on vient d'arriver à 0 followers (transition vers 0), jouer le son de début
+        if (newCount == 0 && lastFollowersCount != 0 && startSound != null)
+        {
+            PlayUnlockSound(startSound);
+        }
+
         // Fonctionnement type "state machine" :
         // - On suppose que le tableau "unlocks" est rangé par ordre croissant de requiredFollowers.
         // - On ne regarde que l'étape suivante (currentStepIndex), puis la suivante, etc.
@@ -84,9 +99,18 @@ public class FollowersUnlockController : MonoBehaviour
                 continue;
             }
 
-            // Si déjà débloqué, on avance à l'étape suivante.
+            // Détecter une montée de palier (ex : on vient de passer en dessus du requiredFollowers)
+            bool crossedUp = lastFollowersCount < item.requiredFollowers && newCount >= item.requiredFollowers;
+
+            // Si déjà débloqué, on avance à l'étape suivante, mais on joue le son si on vient
+            // de repasser au-dessus du palier.
             if (item.isUnlocked)
             {
+                if (crossedUp && item.unlockSound != null)
+                {
+                    PlayUnlockSound(item.unlockSound);
+                }
+
                 currentStepIndex++;
                 continue;
             }
@@ -98,6 +122,12 @@ public class FollowersUnlockController : MonoBehaviour
 
             if (newCount >= item.requiredFollowers)
             {
+                // Play unlock sound for this item if we crossed the threshold upward
+                if (crossedUp && item.unlockSound != null)
+                {
+                    PlayUnlockSound(item.unlockSound);
+                }
+
                 // Find all placeholder GameObjects in the scene by tag and instantiate the
                 // object at the one nearest to the camera rig. If no placeholders are
                 // present, fall back to activating the provided object in-place.
@@ -124,17 +154,39 @@ public class FollowersUnlockController : MonoBehaviour
 
                     if (nearest != null)
                     {
-                        Instantiate(item.objectToActivate, nearest.transform.position, nearest.transform.rotation);
+                        bool isSceneObject = item.objectToActivate != null && item.objectToActivate.scene.IsValid();
+
+                        if (isSceneObject)
+                        {
+                            // Scene object: move to placeholder and activate
+                            item.objectToActivate.transform.position = nearest.transform.position;
+                            item.objectToActivate.transform.rotation = nearest.transform.rotation;
+                            item.objectToActivate.SetActive(true);
+                        }
+                        else
+                        {
+                            // Prefab asset: instantiate at placeholder
+                            Instantiate(item.objectToActivate, nearest.transform.position, nearest.transform.rotation);
+                        }
+
                         item.isUnlocked = true;
-                        PlayUnlockSound(item.unlockSound);
-                        Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (instanciée au placeholder) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
+                        Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (placée au placeholder) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
                     }
                     else
                     {
-                        item.objectToActivate.SetActive(true);
+                        // No nearest placeholder found — fallback
+                        bool isSceneObject = item.objectToActivate != null && item.objectToActivate.scene.IsValid();
+                        if (isSceneObject)
+                        {
+                            item.objectToActivate.SetActive(true);
+                        }
+                        else
+                        {
+                            Instantiate(item.objectToActivate, transform.position, transform.rotation);
+                        }
+
                         item.isUnlocked = true;
-                        PlayUnlockSound(item.unlockSound);
-                        Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (activation fallback) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
+                        Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (aucun placeholder) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
                     }
                 }
                 else
@@ -161,9 +213,17 @@ public class FollowersUnlockController : MonoBehaviour
     /// </summary>
     private void PlayUnlockSound(AudioClip clip)
     {
-        if (unlockAudioSource == null || clip == null)
+        if (clip == null)
             return;
 
-        unlockAudioSource.PlayOneShot(clip);
+        if (unlockAudioSource != null)
+        {
+            unlockAudioSource.PlayOneShot(clip);
+            return;
+        }
+
+        // Fallback: pas de AudioSource assignée, jouer le son globalement près de la caméra
+        Vector3 pos = Camera.main != null ? Camera.main.transform.position : transform.position;
+        AudioSource.PlayClipAtPoint(clip, pos);
     }
 }

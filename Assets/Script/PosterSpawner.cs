@@ -107,10 +107,10 @@ public class PosterSpawner : MonoBehaviour
 
             for (int i = 0; i < postersPerWall; i++)
             {
-                Sprite randomPoster = posters[Random.Range(0, posters.Length)];
+               //prite randomPoster = posters[Random.Range(0, posters.Length)];
                 Vector3 randomPosition = GetRandomPositionOnWall(wall, wallCollider);
                 Quaternion rotation = GetWallPosterRotation(wall);
-                CreatePoster(randomPoster, randomPosition, wall.transform, rotation);
+               //ceatePoster(randomPoster, randomPosition, wall.transform, rotation);
             }
         }
 
