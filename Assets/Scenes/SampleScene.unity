@@ -8826,7 +8826,8 @@ MonoBehaviour:
     objectToActivate: {fileID: 734123556168500386, guid: e0bc6afcd661c4818801eb0c888710f0, type: 3}
     unlockSound: {fileID: 8300000, guid: 5e9edfcd706df084a9088220e75dce3a, type: 3}
     isUnlocked: 0
-  unlockAudioSource: {fileID: 0}
+  unlockAudioSource: {fileID: 783953273}
+  startSound: {fileID: 8300000, guid: ce948d803f9277b4182e1ef38a05505f, type: 3}
 --- !u!1 &1404711316
 GameObject:
   m_ObjectHideFlags: 0

@@ -56,7 +56,7 @@ public class FollowersUnlockController : MonoBehaviour
         }
 
         // Mémoriser la valeur pour la prochaine détection de montée
-        lastFollowersCount = newCount;
+        lastFollowersCount = FollowersManager.Instance != null ? FollowersManager.Instance.FollowersCount : -1;
     }
 
     private void OnDisable()
