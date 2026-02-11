@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Globalization;
 
 /// <summary>
 /// Affichage du nombre de followers sur une montre (Canvas en World Space).
@@ -42,7 +43,16 @@ public class FollowersWatchDisplay : MonoBehaviour
         if (followersText == null)
             return;
 
-        // Affiche uniquement le nombre.
-        followersText.text = newCount.ToString();
+        // Si plus de 10 000 followers, on affiche en "K" avec une décimale (ex: 26.5K).
+        if (newCount >= 10000)
+        {
+            float thousands = newCount / 1000f;
+            followersText.text = thousands.ToString("0.#", CultureInfo.InvariantCulture) + "K";
+        }
+        else
+        {
+            // Sinon, on affiche simplement le nombre entier.
+            followersText.text = newCount.ToString();
+        }
     }
 }
