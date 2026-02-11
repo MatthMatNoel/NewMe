@@ -23,6 +23,19 @@ public class FollowersManager : MonoBehaviour
     [SerializeField] private AudioClip fiveHundredMilestoneClip; // 500, 1000, 1500, ...
     [SerializeField] private AudioClip thousandMilestoneClip;    // 1000, 2000, ...
 
+    [Header("Sons de motivation (aléatoires)")]
+    [Tooltip("Liste de sons de motivation joués parfois quand on gagne des followers")]
+    [SerializeField] private AudioClip[] motivationalClips;
+
+    [Tooltip("Probabilité (0-1) de jouer un son de motivation à chaque gain de followers")]
+    [Range(0f, 1f)]
+    [SerializeField] private float motivationChancePerGain = 0.3f;
+
+    [Tooltip("Temps minimum en secondes entre deux sons de motivation")]
+    [SerializeField] private float motivationCooldown = 3f;
+
+    private float _lastMotivationTime = -999f;
+
     /// <summary>
     /// Nombre total actuel de followers.
     /// </summary>
@@ -77,6 +90,7 @@ public class FollowersManager : MonoBehaviour
         FollowersCount += amount;
 
         PlayFollowersChangeSound();
+        TryPlayMotivationalSound();
         PlayMilestoneSound(previousFollowers, FollowersCount);
 
         OnFollowersChanged?.Invoke(FollowersCount);
@@ -92,6 +106,7 @@ public class FollowersManager : MonoBehaviour
         FollowersCount = Mathf.Max(0, value);
 
         PlayFollowersChangeSound();
+        TryPlayMotivationalSound();
         PlayMilestoneSound(previousFollowers, FollowersCount);
 
         OnFollowersChanged?.Invoke(FollowersCount);
@@ -106,6 +121,31 @@ public class FollowersManager : MonoBehaviour
             return;
 
         followersAudioSource.PlayOneShot(followersChangeClip);
+    }
+
+    /// <summary>
+    /// Tente de jouer un son de motivation de façon aléatoire lors d'un gain de followers.
+    /// </summary>
+    private void TryPlayMotivationalSound()
+    {
+        if (followersAudioSource == null || motivationalClips == null || motivationalClips.Length == 0)
+            return;
+
+        // Cooldown pour éviter le spam.
+        if (Time.time - _lastMotivationTime < motivationCooldown)
+            return;
+
+        // Chance de jouer un son de motivation.
+        if (UnityEngine.Random.value > motivationChancePerGain)
+            return;
+
+        int index = UnityEngine.Random.Range(0, motivationalClips.Length);
+        AudioClip clip = motivationalClips[index];
+        if (clip == null)
+            return;
+
+        followersAudioSource.PlayOneShot(clip);
+        _lastMotivationTime = Time.time;
     }
 
     /// <summary>

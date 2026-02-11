@@ -15,6 +15,9 @@ public class FollowersUnlockController : MonoBehaviour
         [Tooltip("Objet à faire apparaître (mettre ici un GameObject de la scène, initialement désactivé)")]
         public GameObject objectToActivate;
 
+        [Tooltip("Son joué quand cet élément est débloqué (par exemple début d'un nouvel exercice)")]
+        public AudioClip unlockSound;
+
         [HideInInspector]
         public bool isUnlocked = false; // Évite de réactiver plusieurs fois le même objet
     }
@@ -23,12 +26,21 @@ public class FollowersUnlockController : MonoBehaviour
     [Tooltip("Configure ici les paliers de followers et les objets à activer")]
     public UnlockItem[] unlocks;
 
+    [Header("Audio")]
+    [Tooltip("Source audio utilisée pour jouer les sons de déblocage d'étapes")]
+    [SerializeField] private AudioSource unlockAudioSource;
+
     // Index de l'étape courante dans la "state machine"
     // 0 = première étape, 1 = deuxième, etc.
     private int currentStepIndex = 0;
 
     private void OnEnable()
     {
+        if (unlockAudioSource == null)
+        {
+            unlockAudioSource = GetComponent<AudioSource>();
+        }
+
         if (FollowersManager.Instance != null)
         {
             FollowersManager.Instance.OnFollowersChanged += HandleFollowersChanged;
@@ -114,12 +126,14 @@ public class FollowersUnlockController : MonoBehaviour
                     {
                         Instantiate(item.objectToActivate, nearest.transform.position, nearest.transform.rotation);
                         item.isUnlocked = true;
+                        PlayUnlockSound(item.unlockSound);
                         Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (instanciée au placeholder) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
                     }
                     else
                     {
                         item.objectToActivate.SetActive(true);
                         item.isUnlocked = true;
+                        PlayUnlockSound(item.unlockSound);
                         Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (activation fallback) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
                     }
                 }
@@ -127,6 +141,7 @@ public class FollowersUnlockController : MonoBehaviour
                 {
                     item.objectToActivate.SetActive(true);
                     item.isUnlocked = true;
+                    PlayUnlockSound(item.unlockSound);
                     Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (aucun placeholder trouvé) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
                 }
 
@@ -139,5 +154,16 @@ public class FollowersUnlockController : MonoBehaviour
             // Si on n'a pas encore atteint le palier de l'étape courante, on s'arrête là.
             break;
         }
+    }
+
+    /// <summary>
+    /// Joue le son associé à un élément lorsqu'il est débloqué.
+    /// </summary>
+    private void PlayUnlockSound(AudioClip clip)
+    {
+        if (unlockAudioSource == null || clip == null)
+            return;
+
+        unlockAudioSource.PlayOneShot(clip);
     }
 }
