@@ -10,8 +10,8 @@ public class FollowersWatchDisplay : MonoBehaviour
     [Header("Référence vers le TextMeshPro de la montre")]
     [SerializeField] private TMP_Text followersText;
 
-    [Header("Texte avant le nombre")]
-    [SerializeField] private string prefix = "Followers : ";
+    [Header("(Optionnel) Texte avant le nombre")]
+    [SerializeField] private string prefix = "";
 
     private void OnEnable()
     {
@@ -21,6 +21,11 @@ public class FollowersWatchDisplay : MonoBehaviour
 
             // Initialisation de l'affichage avec la valeur actuelle.
             HandleFollowersChanged(FollowersManager.Instance.FollowersCount);
+        }
+        else if (followersText != null)
+        {
+            // Si pas de manager, on commence à 0 par défaut.
+            followersText.text = prefix + "0";
         }
     }
 
@@ -40,8 +45,7 @@ public class FollowersWatchDisplay : MonoBehaviour
         if (followersText == null)
             return;
 
-        // Gestion du singulier/pluriel : 1 follower / X followers
-        string label = newCount == 1 ? " follower" : " followers";
-        followersText.text = prefix + newCount.ToString() + label;
+        // Affiche uniquement le nombre (éventuellement précédé d'un petit préfixe vide par défaut).
+        followersText.text = prefix + newCount.ToString();
     }
 }
