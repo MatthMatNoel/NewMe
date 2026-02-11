@@ -1,6 +1,5 @@
 using UnityEngine;
 using Oculus.Interaction;
-using System.Collections.Generic;
 
 /// <summary>
 /// Makes an object grabbable only with two hands.
@@ -17,10 +16,6 @@ public class TwoHandsOnlyGrabbable : Grabbable
     [Tooltip("Optional visual feedback when trying to grab with only one hand")]
     private GameObject _needTwoHandsFeedback;
 
-    // Track pending grab attempts
-    private HashSet<int> _pendingGrabs = new HashSet<int>();
-    private bool _isFullyGrabbed = false;
-
     protected override void Start()
     {
         base.Start();
@@ -35,72 +30,30 @@ public class TwoHandsOnlyGrabbable : Grabbable
         }
     }
 
-    protected override void Update()
-    {
-        base.Update();
-
-        // Monitor grab state and enforce two-hand requirement
-        if (_isFullyGrabbed && SelectingPointsCount < _minHandsRequired)
-        {
-            // One hand released - force full release
-            _isFullyGrabbed = false;
-            _pendingGrabs.Clear();
-            ShowNeedTwoHandsFeedback(false);
-        }
-    }
-
     public override void ProcessPointerEvent(PointerEvent evt)
     {
-        int pointerId = evt.Identifier;
-
+        // Check if we have enough hands before allowing interaction
         if (evt.Type == PointerEventType.Select)
         {
-            // Track this grab attempt
-            _pendingGrabs.Add(pointerId);
-
-            // Check if we now have enough hands
-            if (_pendingGrabs.Count >= _minHandsRequired)
+            if (SelectingPointsCount < _minHandsRequired - 1)
             {
-                // We have enough hands - allow the grab
-                _isFullyGrabbed = true;
-                ShowNeedTwoHandsFeedback(false);
-                base.ProcessPointerEvent(evt);
+                // Not enough hands yet - show feedback and block the grab
+                ShowNeedTwoHandsFeedback(true);
+                // DO NOT call base - this prevents grabbing with one hand
+                return;
             }
             else
             {
-                // Not enough hands yet - show feedback but don't grab
-                ShowNeedTwoHandsFeedback(true);
-                // Don't call base - prevents single-hand grab
+                // We have enough hands now
+                ShowNeedTwoHandsFeedback(false);
             }
         }
-        else if (evt.Type == PointerEventType.Unselect || evt.Type == PointerEventType.Cancel)
+        else if (evt.Type == PointerEventType.Unselect)
         {
-            // Remove from pending grabs
-            _pendingGrabs.Remove(pointerId);
-
-            // If we're fully grabbed, process the unselect
-            if (_isFullyGrabbed)
-            {
-                base.ProcessPointerEvent(evt);
-
-                // If this drops us below minimum, force full release
-                if (_pendingGrabs.Count < _minHandsRequired)
-                {
-                    _isFullyGrabbed = false;
-                    _pendingGrabs.Clear();
-                }
-            }
-
             ShowNeedTwoHandsFeedback(false);
         }
-        else
-        {
-            // For other events (Hover, Move, etc.), only process if fully grabbed
-            if (_isFullyGrabbed || evt.Type == PointerEventType.Hover || evt.Type == PointerEventType.Unhover)
-            {
-                base.ProcessPointerEvent(evt);
-            }
-        }
+
+        base.ProcessPointerEvent(evt);
     }
 
     private void ShowNeedTwoHandsFeedback(bool show)
