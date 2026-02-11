@@ -86,9 +86,49 @@ public class FollowersUnlockController : MonoBehaviour
 
             if (newCount >= item.requiredFollowers)
             {
-                item.objectToActivate.SetActive(true);
-                item.isUnlocked = true;
-                Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
+                // Find all placeholder GameObjects in the scene by tag and instantiate the
+                // object at the one nearest to the camera rig. If no placeholders are
+                // present, fall back to activating the provided object in-place.
+                var placeholderGOs = GameObject.FindGameObjectsWithTag("Placeholder");
+
+                Transform cameraTransform = Camera.main != null ? Camera.main.transform : null;
+                Vector3 cameraPos = cameraTransform != null ? cameraTransform.position : transform.position;
+
+                if (placeholderGOs != null && placeholderGOs.Length > 0)
+                {
+                    GameObject nearest = null;
+                    float minDist = float.MaxValue;
+
+                    foreach (var ph in placeholderGOs)
+                    {
+                        if (ph == null) continue;
+                        float d = Vector3.SqrMagnitude(ph.transform.position - cameraPos);
+                        if (d < minDist)
+                        {
+                            minDist = d;
+                            nearest = ph;
+                        }
+                    }
+
+                    if (nearest != null)
+                    {
+                        Instantiate(item.objectToActivate, nearest.transform.position, nearest.transform.rotation);
+                        item.isUnlocked = true;
+                        Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (instanciée au placeholder) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
+                    }
+                    else
+                    {
+                        item.objectToActivate.SetActive(true);
+                        item.isUnlocked = true;
+                        Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (activation fallback) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
+                    }
+                }
+                else
+                {
+                    item.objectToActivate.SetActive(true);
+                    item.isUnlocked = true;
+                    Debug.Log($"[FollowersUnlockController] Étape {currentStepIndex} débloquée (aucun placeholder trouvé) : {item.objectToActivate.name} (palier {item.requiredFollowers}, actuel {newCount})");
+                }
 
                 // On passe à l'étape suivante et on regarde si, par exemple après un gros gain de followers,
                 // on doit aussi débloquer les étapes suivantes dans la même frame.
