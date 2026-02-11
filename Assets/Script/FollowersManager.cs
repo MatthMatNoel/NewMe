@@ -14,6 +14,10 @@ public class FollowersManager : MonoBehaviour
     [Header("Followers de départ")]
     [SerializeField] private int initialFollowers = 0;
 
+    [Header("Audio paliers followers")]
+    [SerializeField] private AudioSource milestoneAudioSource;
+    [SerializeField] private AudioClip hundredFollowersClip;
+
     /// <summary>
     /// Nombre total actuel de followers.
     /// </summary>
@@ -47,6 +51,12 @@ public class FollowersManager : MonoBehaviour
         Instance = this;
         FollowersCount = initialFollowers;
 
+        // Récupère un AudioSource sur le même GameObject si non assigné.
+        if (milestoneAudioSource == null)
+        {
+            milestoneAudioSource = GetComponent<AudioSource>();
+        }
+
         // Optionnel : informer les éventuels listeners de la valeur initiale.
         OnFollowersChanged?.Invoke(FollowersCount);
     }
@@ -58,7 +68,11 @@ public class FollowersManager : MonoBehaviour
     {
         if (amount <= 0) return;
 
+        int previousFollowers = FollowersCount;
         FollowersCount += amount;
+
+        CheckHundredMilestones(previousFollowers, FollowersCount);
+
         OnFollowersChanged?.Invoke(FollowersCount);
         Debug.Log($"[FollowersManager] Nouveau total de followers : {FollowersCount}");
     }
@@ -68,7 +82,35 @@ public class FollowersManager : MonoBehaviour
     /// </summary>
     public void SetFollowers(int value)
     {
+        int previousFollowers = FollowersCount;
         FollowersCount = Mathf.Max(0, value);
+
+        CheckHundredMilestones(previousFollowers, FollowersCount);
+
         OnFollowersChanged?.Invoke(FollowersCount);
+    }
+
+    /// <summary>
+    /// Joue un son à chaque fois qu'un palier de 100 followers est franchi : 100, 200, 300, etc.
+    /// </summary>
+    private void CheckHundredMilestones(int previousCount, int currentCount)
+    {
+        if (hundredFollowersClip == null || milestoneAudioSource == null)
+            return;
+
+        if (currentCount <= 0)
+            return;
+
+        int previousMilestone = previousCount / 100;
+        int currentMilestone = currentCount / 100;
+
+        // Si on a franchi un ou plusieurs paliers de 100, on joue le son pour chacun.
+        if (currentMilestone > previousMilestone)
+        {
+            for (int milestone = previousMilestone + 1; milestone <= currentMilestone; milestone++)
+            {
+                milestoneAudioSource.PlayOneShot(hundredFollowersClip);
+            }
+        }
     }
 }
