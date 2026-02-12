@@ -55,6 +55,8 @@ MonoBehaviour:
   - {fileID: 1782595975043896907, guid: 777d180a592dbad4a800c4e4f4644d37, type: 3}
   - {fileID: 1782595975043896907, guid: 08c540cfb52eb3e419b3c5fceb50de31, type: 3}
   - {fileID: 1782595975043896907, guid: bb9ed0c797bb70a4f9c2a556c1b51e12, type: 3}
+  - {fileID: 1782595975043896907, guid: c176aa2437b88f54e850c8ba232f0248, type: 3}
+  - {fileID: 1782595975043896907, guid: c5838ee64ae473c48ad9a0eb5a720607, type: 3}
   posterToReplace: {fileID: 0}
   minScaleFactor: 0.5
   maxScaleFactor: 1.1

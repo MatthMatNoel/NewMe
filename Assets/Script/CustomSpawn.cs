@@ -32,6 +32,12 @@ namespace Meta.XR.MRUtilityKit
             
             [Tooltip("Maximum rotation angles (X, Y, Z)")]
             public Vector3 MaxRotation = Vector3.zero;
+            
+            [Tooltip("Position offset to apply to spawned objects (X, Y, Z)")]
+            public Vector3 SpawnOffset = Vector3.zero;
+            
+            [Tooltip("Align object rotation to the surface/table orientation (useful for objects on tables)")]
+            public bool AlignToSurface = false;
         }
 
         /// <summary>
@@ -305,6 +311,7 @@ namespace Meta.XR.MRUtilityKit
             {
                 Vector3 spawnPosition = Vector3.zero;
                 Vector3 spawnNormal = Vector3.zero;
+                MRUKAnchor spawnAnchor = null;
 
                 if (SpawnLocations == SpawnLocation.Floating)
                 {
@@ -343,6 +350,21 @@ namespace Meta.XR.MRUtilityKit
                         spawnPosition = pos + normal * baseOffset;
                         spawnNormal = normal;
                         var center = spawnPosition + normal * centerOffset;
+                        
+                        // Find the closest anchor at this position
+                        float closestDistance = float.MaxValue;
+                        foreach (var anchor in room.Anchors)
+                        {
+                            if (!Labels.HasFlag(anchor.Label))
+                                continue;
+                                
+                            float distance = Vector3.Distance(pos, anchor.transform.position);
+                            if (distance < closestDistance)
+                            {
+                                closestDistance = distance;
+                                spawnAnchor = anchor;
+                            }
+                        }
                         
                         // Check if position is inside the room
                         if (!room.IsPositionInRoom(center))
@@ -384,7 +406,33 @@ namespace Meta.XR.MRUtilityKit
 
                 // Calculate rotation
                 Quaternion spawnRotation;
-                if (spawnData.UseCustomRotation)
+                if (spawnData.AlignToSurface && spawnAnchor != null)
+                {
+                    // Align to the surface/table orientation
+                    Quaternion anchorRotation = spawnAnchor.transform.rotation;
+                    // Keep the object upright (only use Y rotation from the anchor)
+                    Vector3 anchorForward = anchorRotation * Vector3.forward;
+                    anchorForward.y = 0; // Project to horizontal plane
+                    if (anchorForward.sqrMagnitude > 0.001f)
+                    {
+                        spawnRotation = Quaternion.LookRotation(anchorForward, Vector3.up);
+                    }
+                    else
+                    {
+                        spawnRotation = Quaternion.FromToRotation(Vector3.up, spawnNormal);
+                    }
+                    
+                    // Apply custom rotation on top if enabled
+                    if (spawnData.UseCustomRotation)
+                    {
+                        float randomX = Random.Range(spawnData.MinRotation.x, spawnData.MaxRotation.x);
+                        float randomY = Random.Range(spawnData.MinRotation.y, spawnData.MaxRotation.y);
+                        float randomZ = Random.Range(spawnData.MinRotation.z, spawnData.MaxRotation.z);
+                        Quaternion customRotation = Quaternion.Euler(randomX, randomY, randomZ);
+                        spawnRotation = spawnRotation * customRotation;
+                    }
+                }
+                else if (spawnData.UseCustomRotation)
                 {
                     // Generate random rotation within specified ranges
                     float randomX = Random.Range(spawnData.MinRotation.x, spawnData.MaxRotation.x);
@@ -413,15 +461,18 @@ namespace Meta.XR.MRUtilityKit
 
                 foundValidSpawnPosition = true;
 
+                // Apply spawn offset
+                Vector3 finalSpawnPosition = spawnPosition + spawnRotation * spawnData.SpawnOffset;
+
                 // Spawn the object
                 if (spawnData.Prefab.scene.path == null)
                 {
-                    var item = Instantiate(spawnData.Prefab, spawnPosition, spawnRotation, transform);
+                    var item = Instantiate(spawnData.Prefab, finalSpawnPosition, spawnRotation, transform);
                     _spawnedObjects.Add(item);
                 }
                 else
                 {
-                    spawnData.Prefab.transform.position = spawnPosition;
+                    spawnData.Prefab.transform.position = finalSpawnPosition;
                     spawnData.Prefab.transform.rotation = spawnRotation;
                 }
 
