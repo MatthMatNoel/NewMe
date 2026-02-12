@@ -10373,8 +10373,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   SurfaceClearanceDistance: 0.1
-  UsePlayerExclusionZone: 1
-  PlayerExclusionRadius: 1
+  UsePlayerExclusionZone: 0
+  PlayerExclusionRadius: 0.5
   PlayerStartTransform: {fileID: 603416418}
 --- !u!4 &807096139
 Transform:
@@ -15860,7 +15860,7 @@ MonoBehaviour:
     SpawnOffset: {x: 0, y: 2, z: 0}
     AlignToSurface: 0
   - Prefab: {fileID: 5073049266104298030, guid: 800bf279236f26b428eab0dce1523377, type: 3}
-    SpawnCount: 2
+    SpawnCount: 4
     UseCustomRotation: 1
     MinRotation: {x: 0, y: 0, z: 0}
     MaxRotation: {x: 0, y: 360, z: 0}
@@ -15885,7 +15885,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   SurfaceClearanceDistance: 0.1
   UsePlayerExclusionZone: 1
-  PlayerExclusionRadius: 2
+  PlayerExclusionRadius: 0.5
   PlayerStartTransform: {fileID: 603416418}
 --- !u!4 &1735072979
 Transform:
