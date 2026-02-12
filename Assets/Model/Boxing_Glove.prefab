@@ -255,8 +255,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: boxing_glove_laced_low
       objectReference: {fileID: 0}
+    - target: {fileID: 2330259044149771228, guid: de536b46cc912054b9f99334df6f2809, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330259044149771228, guid: de536b46cc912054b9f99334df6f2809, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6900829953332449540, guid: de536b46cc912054b9f99334df6f2809, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: de536b46cc912054b9f99334df6f2809, type: 3}

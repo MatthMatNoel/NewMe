@@ -34,7 +34,7 @@ public class Punching_Bag : MonoBehaviour
         if (impactForce >= minPunchForce)
         {
             punchAudioSource.pitch = Random.Range(0.7f, 1.3f);
-            punchAudioSource.volume = Random.Range(0.7f, 1.0f);
+            punchAudioSource.volume = Random.Range(0.3f, 0.5f);
             punchAudioSource.PlayOneShot(punchSound);
 
             if (FollowersManager.Instance != null)

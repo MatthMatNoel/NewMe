@@ -101,8 +101,10 @@ MonoBehaviour:
   floorTag: FLOOR
   raycastDistance: 10
   originOffset: 0.05
-  downThreshold: 0.1
-  upThreshold: 0.2
+  downThreshold: 0.075
+  upThreshold: 0.21
+  minTimeBetweenRewards: 1
+  grabbable: {fileID: 0}
   showDebugRay: 1
   floorLayer:
     serializedVersion: 2
@@ -338,6 +340,8 @@ MonoBehaviour:
   originOffset: 0.05
   downThreshold: 1.2
   upThreshold: 1.4
+  minTimeBetweenRewards: 1
+  grabbable: {fileID: 0}
   showDebugRay: 1
   floorLayer:
     serializedVersion: 2

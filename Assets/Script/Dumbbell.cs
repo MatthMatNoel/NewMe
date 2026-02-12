@@ -55,6 +55,11 @@ public class Dumbbell : MonoBehaviour
 
     private void OnQuickMovement(float speed)
     {
+        if (!IsGrabbed())
+        {
+            return;
+        }
+
         // Quand on remonte après être passé en bas, on considère que la pompe est validée.
         if (FollowersManager.Instance != null)
         {

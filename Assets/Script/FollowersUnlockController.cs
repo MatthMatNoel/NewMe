@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// Active des objets dans la scène quand certains paliers de followers sont atteints.
@@ -33,12 +34,17 @@ public class FollowersUnlockController : MonoBehaviour
     [Tooltip("Son joué au démarrage lorsque le nombre de followers est 0 (son de début)")]
     public AudioClip startSound;
 
+    [Tooltip("Délai avant de jouer le son de début quand on atteint 0 followers")]
+    [SerializeField] private float startSoundDelay = 3f;
+
     // Index de l'étape courante dans la "state machine"
     // 0 = première étape, 1 = deuxième, etc.
     private int currentStepIndex = 0;
 
     // Mémoire du nombre de followers précédent pour détecter les montées de palier
     private int lastFollowersCount = -1;
+
+    private Coroutine startSoundCoroutine;
 
     private void OnEnable()
     {
@@ -80,7 +86,11 @@ public class FollowersUnlockController : MonoBehaviour
         // Si on vient d'arriver à 0 followers (transition vers 0), jouer le son de début
         if (newCount == 0 && lastFollowersCount != 0 && startSound != null)
         {
-            PlayUnlockSound(startSound);
+            if (startSoundCoroutine != null)
+            {
+                StopCoroutine(startSoundCoroutine);
+            }
+            startSoundCoroutine = StartCoroutine(PlayStartSoundWithDelay());
         }
 
         // Fonctionnement type "state machine" :
@@ -206,6 +216,13 @@ public class FollowersUnlockController : MonoBehaviour
             // Si on n'a pas encore atteint le palier de l'étape courante, on s'arrête là.
             break;
         }
+    }
+
+    private IEnumerator PlayStartSoundWithDelay()
+    {
+        yield return new WaitForSeconds(startSoundDelay);
+        PlayUnlockSound(startSound);
+        startSoundCoroutine = null;
     }
 
     /// <summary>

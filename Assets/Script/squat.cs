@@ -1,4 +1,5 @@
 using UnityEngine;
+using Oculus.Interaction;
 
 public class Squat : MonoBehaviour
 {
@@ -18,6 +19,13 @@ public class Squat : MonoBehaviour
     [Tooltip("Distance threshold for 'up' position (in meters)")]
     public float upThreshold = 0.6f;
 
+    [Header("Reward Settings")]
+    [Tooltip("Minimum time in seconds between two follower rewards")]
+    public float minTimeBetweenRewards = 1.0f;
+
+    [Header("Grab Detection")]
+    [SerializeField] private Grabbable grabbable;
+
     [Header("Debug Settings")]
     [Tooltip("Show debug ray in Scene view")]
     public bool showDebugRay = true;
@@ -29,11 +37,18 @@ public class Squat : MonoBehaviour
     // State tracking
     private bool isDown = false;
     private float currentDistance = Mathf.Infinity;
+    private bool hasRewardedThisUp = false;
+    private float lastRewardTime = Mathf.NegativeInfinity;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Debug.Log("STARTING");
+
+        if (grabbable == null)
+        {
+            grabbable = GetComponent<Grabbable>();
+        }
     }
 
     // Update is called once per frame
@@ -114,13 +129,19 @@ public class Squat : MonoBehaviour
             if (!isDown && currentDistance <= downThreshold)
             {
                 isDown = true;
+                hasRewardedThisUp = false; // reset reward when going down
                 OnSquatDown();
             }
             // Check for up position
             else if (isDown && currentDistance >= upThreshold)
             {
                 isDown = false;
-                OnSquatUp();
+
+                if (!hasRewardedThisUp)
+                {
+                    hasRewardedThisUp = true;
+                    OnSquatUp();
+                }
             }
         }
         else
@@ -146,11 +167,26 @@ public class Squat : MonoBehaviour
     {
         Debug.Log("Squat up");
 
+        // Ne gagne des followers que si l'objet est saisi.
+        if (grabbable == null || grabbable.SelectingPointsCount <= 0)
+        {
+            return;
+        }
+
         // Quand on remonte après être passé en bas, on considère que la pompe est validée.
+        // Ajoute un délai minimum entre deux récompenses pour éviter
+        // de gagner des followers trop rapidement si la hauteur oscille.
+        if (Time.time - lastRewardTime < minTimeBetweenRewards)
+        {
+            return;
+        }
+
+        lastRewardTime = Time.time;
+
         if (FollowersManager.Instance != null)
         {
-            FollowersManager.Instance.AddFollowers(10);
-            Debug.Log("+10 followers !!!!!");
+            FollowersManager.Instance.AddFollowers(30);
+            Debug.Log("+30 followers !!!!!");
         }
         else
         {
