@@ -3606,7 +3606,7 @@ GameObject:
   - component: {fileID: 556889867}
   - component: {fileID: 556889866}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: FollowersParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3653,7 +3653,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cf0cc60dbfe50bd4896c3ab4fe9b049f, type: 2}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3687,7 +3687,7 @@ ParticleSystemRenderer:
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_ShadowBias: 0
-  m_RenderAlignment: 0
+  m_RenderAlignment: 3
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_EnableGPUInstancing: 1
@@ -3724,7 +3724,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -4285,7 +4285,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.05
+      scalar: 0.1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4339,7 +4339,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 4.45
+    angle: 13.47
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0.81
@@ -5042,15 +5042,15 @@ ParticleSystem:
         m_NumAlphaKeys: 2
   UVModule:
     serializedVersion: 2
-    enabled: 0
-    mode: 0
+    enabled: 1
+    mode: 1
     timeMode: 0
     fps: 30
     frameOverTime:
       serializedVersion: 2
-      minMaxState: 1
-      scalar: 0.9999
-      minScalar: 0.9999
+      minMaxState: 3
+      scalar: 0.5
+      minScalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5101,8 +5101,8 @@ ParticleSystem:
         m_RotationOrder: 4
     startFrame:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
+      minMaxState: 3
+      scalar: 0.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5161,7 +5161,8 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: 308810933, guid: 0c9c430be0ffeec439d0241929969371, type: 3}
+    - sprite: {fileID: 737067684, guid: 0c9c430be0ffeec439d0241929969371, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -9661,6 +9662,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 957168948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &718976487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 718976488}
+  m_Layer: 0
+  m_Name: FollowerSprite_02_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &718976488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718976487}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &724372989
 GameObject:
   m_ObjectHideFlags: 0
@@ -13551,6 +13583,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 85d9dfc652335e948a91d65c9bf243d3, type: 3}
   motivationChancePerGain: 0.353
   motivationCooldown: 3
+  followersParticleSystem: {fileID: 556889867}
+  particlesPerFollower: 1
+  maxParticlesPerBurst: 200
+  burstDuration: 1.5
 --- !u!4 &1399441427
 Transform:
   m_ObjectHideFlags: 0
@@ -18119,3 +18155,4 @@ SceneRoots:
   - {fileID: 218474318}
   - {fileID: 1377867942}
   - {fileID: 90128334}
+  - {fileID: 718976488}

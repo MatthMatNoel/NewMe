@@ -36,6 +36,17 @@ public class FollowersManager : MonoBehaviour
 
     private float _lastMotivationTime = -999f;
 
+    [Header("Particles lors du gain de followers")]
+    [SerializeField] private ParticleSystem followersParticleSystem;
+    [Tooltip("Nombre de particules émises par follower gagné")] 
+    [SerializeField] private float particlesPerFollower = 10f;
+    [Tooltip("Nombre maximum de particules émises en une fois (0 = pas de limite)")]
+    [SerializeField] private int maxParticlesPerBurst = 200;
+    [Tooltip("Durée maximale en secondes pendant laquelle les particules vont être émises séquentiellement")]
+    [SerializeField] private float burstDuration = 1.5f;
+
+    private Coroutine _particlesCoroutine;
+
     /// <summary>
     /// Nombre total actuel de followers.
     /// </summary>
@@ -92,6 +103,7 @@ public class FollowersManager : MonoBehaviour
         PlayFollowersChangeSound();
         TryPlayMotivationalSound();
         PlayMilestoneSound(previousFollowers, FollowersCount);
+        PlayFollowersParticles(amount);
 
         OnFollowersChanged?.Invoke(FollowersCount);
         Debug.Log($"[FollowersManager] Nouveau total de followers : {FollowersCount}");
@@ -197,5 +209,87 @@ public class FollowersManager : MonoBehaviour
         int currMultiple = current / step;
 
         return currMultiple > prevMultiple;
+    }
+
+    /// <summary>
+    /// Joue un effet de particules dont l'intensité dépend du nombre de followers gagnés.
+    /// </summary>
+    private void PlayFollowersParticles(int amount)
+    {
+        if (followersParticleSystem == null || amount <= 0)
+            return;
+
+        // Nombre désiré de particules = followers gagnés * multiplicateur.
+        int desiredParticles = Mathf.RoundToInt(amount * Mathf.Max(0f, particlesPerFollower));
+
+        // Si tu veux exactement 1 particule par follower, mets particlesPerFollower = 1.
+        int particleCount = desiredParticles;
+
+        if (maxParticlesPerBurst > 0)
+        {
+            particleCount = Mathf.Min(particleCount, maxParticlesPerBurst);
+        }
+
+        if (particleCount <= 0)
+            return;
+
+        // Désactive toute émission continue pour garder un contrôle "au particle près".
+        var emission = followersParticleSystem.emission;
+        emission.rateOverTime = 0f;
+        emission.rateOverDistance = 0f;
+
+        if (_particlesCoroutine != null)
+        {
+            StopCoroutine(_particlesCoroutine);
+        }
+
+        Debug.Log($"[FollowersManager] Gagné {amount} followers -> émission de {particleCount} particules");
+
+        _particlesCoroutine = StartCoroutine(EmitParticlesSequentially(particleCount));
+    }
+
+    /// <summary>
+    /// Émet les particules une par une sur une courte durée.
+    /// </summary>
+    private IEnumerator EmitParticlesSequentially(int particleCount)
+    {
+        if (followersParticleSystem == null || particleCount <= 0)
+            yield break;
+
+        // S'assurer que le GameObject est actif pour voir les particules.
+        if (!followersParticleSystem.gameObject.activeInHierarchy)
+        {
+            followersParticleSystem.gameObject.SetActive(true);
+        }
+
+        if (!followersParticleSystem.isPlaying)
+        {
+            followersParticleSystem.Play();
+        }
+
+        float totalDuration = Mathf.Max(0f, burstDuration);
+        float delay = 0f;
+
+        if (particleCount > 1 && totalDuration > 0f)
+        {
+            // On répartit les particules sur la durée souhaitée.
+            delay = totalDuration / particleCount;
+        }
+
+        for (int i = 0; i < particleCount; i++)
+        {
+            followersParticleSystem.Emit(1);
+
+            if (delay > 0f && i < particleCount - 1)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+            else
+            {
+                yield return null; // au moins une frame entre chaque particule
+            }
+        }
+
+        _particlesCoroutine = null;
     }
 }
