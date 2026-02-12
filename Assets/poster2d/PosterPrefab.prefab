@@ -53,11 +53,12 @@ MonoBehaviour:
   - {fileID: 1782595975043896907, guid: b167edeafe7de8645b82a0aaf2d8b2c4, type: 3}
   - {fileID: 1782595975043896907, guid: 9485161df8530ac44b945b72d9442f95, type: 3}
   - {fileID: 1782595975043896907, guid: 777d180a592dbad4a800c4e4f4644d37, type: 3}
+  - {fileID: 1782595975043896907, guid: 08c540cfb52eb3e419b3c5fceb50de31, type: 3}
+  - {fileID: 1782595975043896907, guid: bb9ed0c797bb70a4f9c2a556c1b51e12, type: 3}
   posterToReplace: {fileID: 0}
   minScaleFactor: 0.5
   maxScaleFactor: 1.1
-  baseSortingOrder: 0
-  sortingOrderStep: 1
+  maxZOffset: 0.01
 --- !u!1 &8078158917663286580
 GameObject:
   m_ObjectHideFlags: 0
