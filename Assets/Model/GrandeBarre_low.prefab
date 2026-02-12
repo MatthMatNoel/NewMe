@@ -75,8 +75,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bd2506f683347a9bd6367cb7833584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dumbbell
-  speedThreshold: 3
-  cooldownTime: 0.5
+  speedThreshold: 2.5
+  cooldownTime: 0.75
   followerNumber: 100
   grabbable: {fileID: 0}
 --- !u!114 &2868647468299503741
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: f8766c17-aaf8-4b55-9431-de8deea83842
-  instanceId: c5565639-7e7b-4281-ab49-d18d335f6c06
+  instanceId: 80ab9337-8632-41fb-aa15-5d9a226fecb4
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: f8338144-8280-4ff6-9455-ae2bb9c20fe8

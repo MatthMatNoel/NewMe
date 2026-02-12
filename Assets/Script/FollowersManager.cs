@@ -18,6 +18,13 @@ public class FollowersManager : MonoBehaviour
     [SerializeField] private AudioSource followersAudioSource;
     [SerializeField] private AudioClip followersChangeClip; // son "de base" pour 1 à 99
 
+    [Tooltip("Source dédiée pour le son de changement de followers (pour gérer le pitch indépendamment)")]
+    [SerializeField] private AudioSource followersChangeAudioSource;
+
+    [Header("Pitch aléatoire du son de changement")]
+    [SerializeField] private float minChangePitch = 0.9f;
+    [SerializeField] private float maxChangePitch = 1.1f;
+
     [Header("Sons paliers spéciaux")]
     [SerializeField] private AudioClip hundredMilestoneClip;    // 100, 200, 300, ...
     [SerializeField] private AudioClip fiveHundredMilestoneClip; // 500, 1000, 1500, ...
@@ -86,6 +93,24 @@ public class FollowersManager : MonoBehaviour
             followersAudioSource = GetComponent<AudioSource>();
         }
 
+        // Si aucune source dédiée n'est assignée pour le son de changement,
+        // on en crée une nouvelle en copiant les réglages principaux de la source existante.
+        if (followersChangeAudioSource == null)
+        {
+            if (followersAudioSource != null)
+            {
+                followersChangeAudioSource = gameObject.AddComponent<AudioSource>();
+                followersChangeAudioSource.playOnAwake = false;
+                followersChangeAudioSource.spatialBlend = followersAudioSource.spatialBlend;
+                followersChangeAudioSource.volume = followersAudioSource.volume;
+                followersChangeAudioSource.outputAudioMixerGroup = followersAudioSource.outputAudioMixerGroup;
+            }
+            else
+            {
+                followersChangeAudioSource = GetComponent<AudioSource>();
+            }
+        }
+
         // Optionnel : informer les éventuels listeners de la valeur initiale.
         OnFollowersChanged?.Invoke(FollowersCount);
     }
@@ -129,10 +154,20 @@ public class FollowersManager : MonoBehaviour
     /// </summary>
     private void PlayFollowersChangeSound()
     {
-        if (followersAudioSource == null || followersChangeClip == null)
+        AudioSource src = followersChangeAudioSource != null ? followersChangeAudioSource : followersAudioSource;
+
+        if (src == null || followersChangeClip == null)
             return;
 
-        followersAudioSource.PlayOneShot(followersChangeClip);
+        // Assure qu'on a un intervalle valide
+        float pitchMin = Mathf.Min(minChangePitch, maxChangePitch);
+        float pitchMax = Mathf.Max(minChangePitch, maxChangePitch);
+
+        float randomPitch = UnityEngine.Random.Range(pitchMin, pitchMax);
+        src.pitch = randomPitch;
+        src.PlayOneShot(followersChangeClip);
+
+        Debug.Log($"[FollowersManager] followersChangeClip joué avec pitch = {randomPitch:F2}");
     }
 
     /// <summary>

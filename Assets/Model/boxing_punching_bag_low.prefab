@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 95068376456710589}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2880001, z: 0}
+  m_LocalPosition: {x: 0, y: 1.7550001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -157,7 +157,7 @@ Transform:
   m_GameObject: {fileID: 8475877803591007059}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.282, z: 0}
+  m_LocalPosition: {x: 0, y: 2.749, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -289,7 +289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7dfd9c896dca6134da49513271e6ec2b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.40700006
+      value: 0.8740001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7dfd9c896dca6134da49513271e6ec2b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -467,4 +467,4 @@ MonoBehaviour:
   followerNumber: 50
   punchAudioSource: {fileID: 4429440262899785920}
   punchSound: {fileID: 8300000, guid: 505e3ee0971a543f2b4e327c740915ac, type: 3}
-  minPunchForce: 1
+  minPunchForce: 0.8
